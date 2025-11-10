@@ -26,7 +26,7 @@ jobs:
       - name: Trigger AWS CodePipeline
         run: |
           echo "Starting CodePipeline execution..."
-          PIPELINE_NAME="simple-node-app-pipeline"
+          PIPELINE_NAME="ata-demo-codepipline"
           aws codepipeline start-pipeline-execution --name "$PIPELINE_NAME"
 
           echo "Waiting for pipeline to finish..."
