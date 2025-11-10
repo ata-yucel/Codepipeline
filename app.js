@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 app.get("/", (req, res) => {
-  res.send("XXXX Hello from CodePipeline Deployment XXXX!");
+  res.send(" Hello from CodePipeline Deployment !");
 });
 
 const PORT = process.env.PORT || 3000;
