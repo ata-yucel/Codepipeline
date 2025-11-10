@@ -1,0 +1,36 @@
+name: Deploy to AWS via CodePipeline
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write     
+  contents: read      
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::438162393827:role/ata-github-oidc-role
+          aws-region: us-east-2
+
+      - name: Trigger AWS CodePipeline
+        run: |
+          echo "Starting CodePipeline execution..."
+          PIPELINE_NAME="simple-node-app-pipeline"
+          aws codepipeline start-pipeline-execution --name "$PIPELINE_NAME"
+
+          echo "Waiting for pipeline to finish..."
+          
+          aws codepipeline wait pipeline-execution-succeeded --name "$PIPELINE_NAME"
+
+          echo "Pipeline triggered successfully!"
